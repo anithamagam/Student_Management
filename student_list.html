@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+</head>
+<body>
+    <h1>Students</h1>
+    <a href="{% url 'add_student' %}">Add Student</a>
+    {% if students %}
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Roll Number</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Branch</th>
+            <th>Actions</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.Name }}</td>
+            <td>{{ student.Age }}</td>
+            <td>{{ student.RollNo }}</td>
+            <td>{{ student.Gender }}</td>
+            <td>{{ student.Email }}</td>
+            <td>{{ student.Branch }}</td>
+            <td>
+                <a href="{% url 'update_student' student.id %}">Edit</a> |
+                <a href="{% url 'delete_student' student.id %}">Delete</a>
+                <form action="{% url 'delete_student' student.id %}" method="POST"
+                style="display:inline;" onsubmit="return confirm ('Are you sure! want to delete {{student.name}}?');">
+                {% csrf_token%}
+                 <button type="submit">Delete</button>
+                 </form>
+                </td>
+                </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No Students Found</p>
+    {% endif %}
+<form method="post" action="{% url 'logout' %}">
+{%csrf_token %}
+<button type="logout"> Logout </button>
+ </form> 
+</body>
+</html>
